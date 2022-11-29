@@ -1,0 +1,9 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <div class="auth-header" style="text-align: right; margin: 1em; float: right;">
+            <MudText> Hello, @(context.User.Identity!.Name)!</MudText>
+            <MudButton StartIcon="@Icons.Filled.ExitToApp" Color="Color.Secondary"
+                       Variant="Variant.Filled" OnClick="LogoutAsync"> Logout </MudButton>
+        </div>
+    </Authorized>
+</AuthorizeView>

@@ -1,0 +1,54 @@
+﻿@using MailTask.Shared.Models;
+<style>
+    img {
+        width: 100%;
+    }
+</style>
+
+<div class="container mt-12">
+    @if (Data != null && Data.Any())
+    {
+        <MudExpansionPanels>
+            @foreach (var mailMessage in Data.OrderByDescending(t => t.Timestamp))
+            {
+                <MudExpansionPanel HideIcon="true">
+                    <TitleContent>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex">
+                                <MudText Style="font-weight: 400;">@($"{mailMessage.Sender} => {mailMessage.Recipient}: {mailMessage.Subject}")</MudText>
+                            </div>
+                            <div>
+                                <MudText Class="text-end">@mailMessage.Timestamp</MudText>
+                            </div>
+                        </div>
+                    </TitleContent>
+                    <ChildContent>
+                        <div class="mt-3 mx-5">
+                            <MudText>@((MarkupString)Markdig.Markdown.ToHtml(mailMessage.Body))</MudText>
+                            </div>
+                        </ChildContent>
+                    </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
+    }
+    else if (Data != null)
+    {
+        <div class="d-flex justify-content-center">
+            <MudPaper Class="mt-3 mx-5 px-4 py-5" Elevation="1" Width="500px" Style="text-align: center;">
+                <MudText> No messages </MudText>
+            </MudPaper>
+        </div>
+    }
+    else
+    {
+        <div style="padding:50px; text-align:center;">
+            <MudText Typo="Typo.h4"> Loading... </MudText>
+            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+        </div>
+    }
+</div>
+
+@code {
+
+    [Parameter] public IEnumerable<MailMessageResponse> Data { get; set; }
+}

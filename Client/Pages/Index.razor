@@ -1,0 +1,28 @@
+﻿@page "/"
+
+<PageTitle> Mail </PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        @{
+            NavigationManager.NavigateTo("/new");
+        }
+    </Authorized>
+    <NotAuthorized>
+        <div class="center-block">
+            <MudPaper Class="text-center" style="width: 500px; border:#424242ff solid 1px;">
+                <div class="py-3 px-4" style="text-align: start; background-color:#adc9e5;">
+                    <MudText> Login </MudText>
+                </div>
+                <div class="mx-3" style="text-align: start;">
+                    <MudText Class="mt-2"> Enter username </MudText>
+                    <div class="my-3 d-flex align-items-center">
+                        <MudTextField @bind-Value="username" Margin="Margin.Dense" Variant="Variant.Outlined" Label="Username" />
+                        <span class="mx-1"></span>
+                        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="LoginAsync"> Login </MudButton>
+                    </div>
+                </div>
+            </MudPaper>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

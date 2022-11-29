@@ -1,0 +1,44 @@
+﻿@page "/new"
+@attribute [Authorize]
+@using MailTask.Shared.Models
+
+<MudOverlay Visible="isSending" DarkBackground="true" Absolute="true">
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+</MudOverlay>
+
+<div class="container mt-5">
+    @if (!isSending)
+    {
+        <EditForm Model="@message" OnValidSubmit="SendMessageAsync">
+            <DataAnnotationsValidator />
+            <div class="mt-2">
+                <MudAutocomplete T="User"
+                             Placeholder="Recipient"
+                             ValueChanged="x => { message.RecipientId = x.Id; }"
+                             ToStringFunc="@(e => e.Username)"
+                             SearchFunc="@SearchUsersAsync"
+                             AdornmentIcon="@Icons.Material.Filled.Search"
+                             AdornmentColor="Color.Primary"
+                             Variant="Variant.Outlined"
+                             SelectValueOnTab="true"
+                             Margin="Margin.Dense" />
+            </div>
+            <div class="mt-2">
+                <MudTextField Variant="Variant.Outlined" Margin="Margin.Dense" @bind-Value="message.Subject" Placeholder="Subject" />
+            </div>
+            <div class="mt-2">
+                <MarkdownEditor @bind-Value="message.Body" Placeholder="Message" SpellChecker="false" />
+            </div>
+
+            <div class="mt-2">
+                <MudText Color="@Color.Error">
+                    <ValidationSummary />
+                </MudText>
+            </div>
+
+            <div class="mt-2" style="display: flex; justify-content: flex-end;">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" ButtonType="ButtonType.Submit"> Send </MudButton>
+            </div>
+        </EditForm>
+    }
+</div>

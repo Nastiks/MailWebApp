@@ -1,0 +1,7 @@
+﻿@page "/inbox"
+@using MailTask.Client.Components
+@attribute [Authorize]
+
+<PageTitle> Inbox </PageTitle>
+
+<Messages Data="messages" />

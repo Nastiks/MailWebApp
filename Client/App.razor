@@ -1,0 +1,39 @@
+﻿@inject NavigationManager navManager
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <AuthorizeView Context="authContext">
+                        <Authorized>
+                            <MudText Style="text-align: center; font-size: xx-large;" Color="Color.Warning"> Forbidden </MudText>
+                        </Authorized>
+                        <NotAuthorized>
+                            @{
+                                navManager.NavigateTo("/");
+                            }
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <AuthorizeView Context="authContext">
+                <Authorized>
+                    <LayoutView Layout="@typeof(MainLayout)">
+                        <PageTitle>404 Not Found</PageTitle>
+                        <div style="display:flex; flex-direction: column; align-items: center;">
+                            <span style="font-size: 36px; color:#424242ff;"> Not Found </span>
+                        </div>
+                    </LayoutView>
+                </Authorized>
+                <NotAuthorized>
+                    @{
+                        navManager.NavigateTo("/");
+                    }
+                </NotAuthorized>
+            </AuthorizeView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
